@@ -20,10 +20,19 @@ def main() -> int:
         print(f"Errore durante l'apertura del file: {exc}")
         return 1
 
-    sheet = workbook.worksheets[0]
-    print(sheet["A1"].value)
-    workbook.close()
-    return 0
+    try:
+        if not workbook.worksheets:
+            print("Il file Excel non contiene fogli leggibili.")
+            return 1
+
+        sheet = workbook.worksheets[0]
+        print(sheet["A1"].value)
+        return 0
+    except Exception as exc:
+        print(f"Errore durante la lettura del file: {exc}")
+        return 1
+    finally:
+        workbook.close()
 
 
 if __name__ == "__main__":
