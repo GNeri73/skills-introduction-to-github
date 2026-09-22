@@ -5,31 +5,31 @@ from openpyxl import load_workbook
 
 
 def main() -> int:
-    file_name = input("Inserisci il nome del file Excel: ").strip()
+    file_name = input("Enter the Excel file name: ").strip()
 
     if not file_name:
-        print("Nome file non valido.")
+        print("Invalid file name.")
         return 1
 
     try:
         workbook = load_workbook(filename=Path(file_name), read_only=True, data_only=True)
     except FileNotFoundError:
-        print("File non trovato.")
+        print("File not found.")
         return 1
     except Exception as exc:
-        print(f"Errore durante l'apertura del file: {exc}")
+        print(f"Error opening the file: {exc}")
         return 1
 
     try:
         if not workbook.worksheets:
-            print("Il file Excel non contiene fogli leggibili.")
+            print("The Excel file does not contain readable worksheets.")
             return 1
 
         sheet = workbook.worksheets[0]
         print(sheet.cell(row=1, column=1).value)
         return 0
     except Exception as exc:
-        print(f"Errore durante la lettura del file: {exc}")
+        print(f"Error reading the file: {exc}")
         return 1
     finally:
         workbook.close()
